@@ -8,9 +8,28 @@ interface trainingReport {
   average: number
 }
 
+interface exerciseValues {
+  target: number,
+  exerciseData: Array<number>
+}
 
+const parseExerciseArguments = (args: Array<string>): exerciseValues => {
+  if (args.length < 4) throw new Error('Not enough arguments')
 
-const calculateExercises = (dailyTrainingTime: Array<number>, dailyTarget: number): trainingReport => {
+  const argsData = args.slice(2).map(arg => Number(arg))
+
+  argsData.forEach(arg => {
+    if (isNaN(arg)) {
+      throw new Error('Provided values were not numbers!')
+    }
+  })
+  return {
+    target: Number(argsData[0]),
+    exerciseData: argsData.slice(1)
+  }
+}
+
+const calculateExercises = (dailyTarget: number, dailyTrainingTime: Array<number>): trainingReport => {
 
   let averageDailyTraining: number = dailyTrainingTime.reduce((p, c) => p + c, 0) / dailyTrainingTime.length
 
@@ -37,5 +56,13 @@ const calculateExercises = (dailyTrainingTime: Array<number>, dailyTarget: numbe
     average: averageDailyTraining
   }
 }
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+
+try {
+  const { target, exerciseData } = parseExerciseArguments(process.argv);
+  console.log(calculateExercises(target, exerciseData))
+} catch (e) {
+  console.log('Error, something went wrong, message: ', e.message)
+}
+
+//console.log(calculateExercises(2, [3, 0, 2, 4.5, 0, 3, 1]))
 
