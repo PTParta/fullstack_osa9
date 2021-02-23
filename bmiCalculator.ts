@@ -3,7 +3,7 @@ interface BMIValues {
   weight: number;
 }
 
-const parseArguments = (args: Array<string>): BMIValues => {
+export const parseArguments = (args: Array<string>): BMIValues => {
   if (args.length != 4) throw new Error('Wrong number of arguments')
 
   if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
@@ -16,7 +16,7 @@ const parseArguments = (args: Array<string>): BMIValues => {
   }
 }
 
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
   const bmi = weight / (height / 100) ** 2;
   //console.log('bmi', bmi)
   if (bmi <= 15) {
@@ -35,6 +35,8 @@ const calculateBmi = (height: number, weight: number): string => {
     return 'Obese Class II (Severely obese)';
   } else if (bmi > 40) {
     return 'Obese Class III (Very severely obese)';
+  } else {
+    return ''
   }
 }
 
