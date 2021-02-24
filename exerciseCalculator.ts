@@ -13,37 +13,37 @@ interface exerciseValues {
   exerciseData: Array<number>
 }
 
-const parseExerciseArguments = (args: Array<string>): exerciseValues => {
-  if (args.length < 4) throw new Error('Not enough arguments')
+export const parseExerciseArguments = (args: Array<string>): exerciseValues => {
+  if (args.length < 4) throw new Error('Not enough arguments');
 
-  const argsData = args.slice(2).map(arg => Number(arg))
+  const argsData = args.slice(2).map(arg => Number(arg));
 
   argsData.forEach(arg => {
     if (isNaN(arg)) {
-      throw new Error('Provided values were not numbers!')
+      throw new Error('Provided values were not numbers!');
     }
-  })
+  });
   return {
     target: Number(argsData[0]),
     exerciseData: argsData.slice(1)
-  }
-}
+  };
+};
 
-const calculateExercises = (dailyTarget: number, dailyTrainingTime: Array<number>): trainingReport => {
+export const calculateExercises = (dailyTarget: number, dailyTrainingTime: Array<number>): trainingReport => {
 
-  let averageDailyTraining: number = dailyTrainingTime.reduce((p, c) => p + c, 0) / dailyTrainingTime.length
+  const averageDailyTraining: number = dailyTrainingTime.reduce((p, c) => p + c, 0) / dailyTrainingTime.length;
 
-  let rating: number
-  let ratingDescription: string
+  let rating: number;
+  let ratingDescription: string;
   if (averageDailyTraining <= 0.9 * dailyTarget) {
     rating = 1;
     ratingDescription = 'You were far below the target';
   } else if (averageDailyTraining >= 1.1 * dailyTarget) {
     rating = 3;
-    ratingDescription = 'You were far above the target'
+    ratingDescription = 'You were far above the target';
   } else {
     rating = 2;
-    ratingDescription = 'You were +-10% of the target'
+    ratingDescription = 'You were +-10% of the target';
   }
 
   return {
@@ -54,15 +54,17 @@ const calculateExercises = (dailyTarget: number, dailyTrainingTime: Array<number
     ratingDescription: ratingDescription,
     target: dailyTarget,
     average: averageDailyTraining
-  }
-}
+  };
+};
 
-try {
+/* try {
   const { target, exerciseData } = parseExerciseArguments(process.argv);
-  console.log(calculateExercises(target, exerciseData))
+  console.log(calculateExercises(target, exerciseData));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (e) {
-  console.log('Error, something went wrong, message: ', e.message)
-}
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  console.log('Error, something went wrong, message: ', e.message);
+} */
 
 //console.log(calculateExercises(2, [3, 0, 2, 4.5, 0, 3, 1]))
 

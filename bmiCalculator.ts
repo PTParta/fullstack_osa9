@@ -4,17 +4,17 @@ interface BMIValues {
 }
 
 export const parseArguments = (args: Array<string>): BMIValues => {
-  if (args.length != 4) throw new Error('Wrong number of arguments')
+  if (args.length != 4) throw new Error('Wrong number of arguments');
 
   if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
     return {
       height: Number(args[2]),
       weight: Number(args[3])
-    }
+    };
   } else {
-    throw new Error('Provided values were not numbers!')
+    throw new Error('Provided values were not numbers!');
   }
-}
+};
 
 export const calculateBmi = (height: number, weight: number): string => {
   const bmi = weight / (height / 100) ** 2;
@@ -36,13 +36,15 @@ export const calculateBmi = (height: number, weight: number): string => {
   } else if (bmi > 40) {
     return 'Obese Class III (Very severely obese)';
   } else {
-    return ''
+    return '';
   }
-}
+};
 
-try {
+/* try {
   const { height, weight } = parseArguments(process.argv);
-  console.log(calculateBmi(height, weight))
+  console.log(calculateBmi(height, weight));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (e) {
-  console.log('Error, something went wrong, message: ', e.message)
-}
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  console.log('Error, something went wrong, message: ', e.message);
+} */
