@@ -1,16 +1,18 @@
 import React from "react";
-import { Part } from '../interfaces/Part';
+import { PartInterface } from '../interfaces/Part';
 
 interface TotalProps {
-  courseParts: Part[];
+  courseParts: PartInterface[];
 }
 
 const Total: React.FC<TotalProps> = (props) => {
   return (
     <div>
+      <br></br>
       <p>
-        Number of exercises{" "}
-        {props.courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+        <strong>Total number of exercises{" "}
+          {props.courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+        </strong>
       </p>
     </div>
   )
