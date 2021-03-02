@@ -5,6 +5,7 @@ import { useStateValue } from "../state";
 import { apiBaseUrl } from "../constants";
 import axios from "axios";
 import { Icon } from "semantic-ui-react";
+import { setPatientWithSnnList } from "../state";
 
 
 const setGenderIcon = (gender: "female" | "male" | "other") => {
@@ -30,7 +31,8 @@ const PatientFullData: React.FC = () => {
           `${apiBaseUrl}/patients/${id}`
         );
         console.log('patient from api', patientFromApi);
-        dispatch({ type: "SET_PATIENTS_WITH_SSN", payload: patientFromApi });
+        //dispatch({ type: "SET_PATIENTS_WITH_SSN", payload: patientFromApi });
+        dispatch(setPatientWithSnnList(patientFromApi));
       } catch (e) {
         console.log(e);
       }
