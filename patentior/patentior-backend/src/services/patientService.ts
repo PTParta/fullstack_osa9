@@ -18,21 +18,23 @@ const getPatients = (): Patient[] => {
 
 const getNonSensiticePatients = (): NonSensitivePatient[] => {
 
-  const nonSensitivePatients = patients.map(({ name, dateOfBirth, gender, occupation }) => ({
+  /* const nonSensitivePatients = patients.map(({ name, dateOfBirth, gender, occupation, entries }) => ({
     name,
     dateOfBirth,
     gender,
-    occupation
-  }));
+    occupation,
+    entries
+  })); */
 
-  console.log(nonSensitivePatients)
+  //console.log(nonSensitivePatients)
 
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+  return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
     id,
     name,
     dateOfBirth,
     gender,
-    occupation
+    occupation,
+    entries
   }));
 };
 

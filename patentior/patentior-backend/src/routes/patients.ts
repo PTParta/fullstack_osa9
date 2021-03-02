@@ -9,6 +9,13 @@ router.get('/', (_req, res) => {
   res.send(patientService.getNonSensiticePatients());
 })
 
+router.get('/:id', (req, res) => {
+  console.log('getting one person with id', req.params.id);
+  const patients = patientService.getPatients();
+  const patient = patients.find(p => p.id === req.params.id)
+  res.send(patient);
+})
+
 router.post('/', (req, res) => {
 
   try {
