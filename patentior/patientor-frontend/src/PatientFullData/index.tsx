@@ -6,6 +6,7 @@ import { apiBaseUrl } from "../constants";
 import axios from "axios";
 import { Icon } from "semantic-ui-react";
 import { setPatientWithSnnList } from "../state";
+import EntryDetails from "../components/EntryDetails";
 
 
 const setGenderIcon = (gender: "female" | "male" | "other") => {
@@ -21,7 +22,7 @@ const setGenderIcon = (gender: "female" | "male" | "other") => {
 
 const PatientFullData: React.FC = () => {
   console.log("patient sivu");
-  const [{ patientsWithSSN, diagnoses }, dispatch] = useStateValue();
+  const [{ patientsWithSSN/* , diagnoses */ }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
   React.useEffect(() => {
 
@@ -58,16 +59,18 @@ const PatientFullData: React.FC = () => {
           <p>ssn: {patient.ssn}</p>
           <p>occupation: {patient.occupation}</p>
           <h3>entries</h3>
+
           {Object.values(patient.entries).map((entry: Entry) => (
             <div key={entry.id}>
-              <p>{entry.date} {entry.description}</p>
+              <EntryDetails entry={entry} /* diagnoses={diagnoses} *//>
+              {/* <p>{entry.date} {entry.description}</p>
               {entry.diagnosisCodes
                 ? entry.diagnosisCodes.map((diagnosisCode: string) => (
                   <ul key={diagnosisCode}>
                     <li>{diagnosisCode} {diagnoses[diagnosisCode].name}</li>
                   </ul>
                 ))
-                : <></>}
+                : <></>} */}
             </div>))}
         </div>
         : <></>}
