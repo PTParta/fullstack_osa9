@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Patient } from "../types";
+import { Patient, Entry } from "../types";
 import { useStateValue } from "../state";
 import { apiBaseUrl } from "../constants";
 import axios from "axios";
@@ -57,6 +57,18 @@ const PatientFullData: React.FC = () => {
           <h1>{patient.name} <Icon name={setGenderIcon(patient.gender)} /></h1>
           <p>ssn: {patient.ssn}</p>
           <p>occupation: {patient.occupation}</p>
+          <h3>entries</h3>
+          {Object.values(patient.entries).map((entry: Entry) => (
+            <div key={entry.id}>
+              <p>{entry.date} {entry.description}</p>
+              {entry.diagnosisCodes
+                ? entry.diagnosisCodes.map((diagnosisCode: string) => (
+                  <ul key={diagnosisCode}>
+                    <li>{diagnosisCode}</li>
+                  </ul>
+                ))
+                : <></>}
+            </div>))}
         </div>
         : <></>}
 
