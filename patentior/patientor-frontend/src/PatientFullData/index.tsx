@@ -21,7 +21,7 @@ const setGenderIcon = (gender: "female" | "male" | "other") => {
 
 const PatientFullData: React.FC = () => {
   console.log("patient sivu");
-  const [{ patientsWithSSN }, dispatch] = useStateValue();
+  const [{ patientsWithSSN, diagnoses }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
   React.useEffect(() => {
 
@@ -64,7 +64,7 @@ const PatientFullData: React.FC = () => {
               {entry.diagnosisCodes
                 ? entry.diagnosisCodes.map((diagnosisCode: string) => (
                   <ul key={diagnosisCode}>
-                    <li>{diagnosisCode}</li>
+                    <li>{diagnosisCode} {diagnoses[diagnosisCode].name}</li>
                   </ul>
                 ))
                 : <></>}
