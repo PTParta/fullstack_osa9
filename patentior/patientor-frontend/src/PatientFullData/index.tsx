@@ -7,6 +7,9 @@ import axios from "axios";
 import { Icon } from "semantic-ui-react";
 import { setPatientWithSnnList } from "../state";
 import EntryDetails from "../components/EntryDetails";
+import AddEntryModal from "../AddEntryModal";
+import { /* Container, Table, */ Button } from "semantic-ui-react";
+import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
 
 
 const setGenderIcon = (gender: "female" | "male" | "other") => {
@@ -24,6 +27,44 @@ const PatientFullData: React.FC = () => {
   console.log("patient sivu");
   const [{ patientsWithSSN/* , diagnoses */ }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
+
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string | undefined>();
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
+  const submitNewEntry = async (values: EntryFormValues) => {
+    console.log('adding a new entry');
+    console.log(values);
+    try {
+      const { data: newEntry } = await axios.post<Entry>(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        values
+      );
+      //dispatch({ type: "ADD_PATIENT", payload: newPatient });
+      //dispatch(addEntry(newEntry));
+      closeModal();
+      const patientsInAList = Object.values(patientsWithSSN).map((p: Patient) => p);
+      const foundPatient: Patient | undefined = patientsInAList.find((p: Patient) => p.id === id);
+
+      if (foundPatient) {
+        foundPatient.entries.push(newEntry);
+        dispatch(setPatientWithSnnList(foundPatient));
+      }
+
+    } catch (e) {
+      console.error(e.response.data);
+      setError(e.response.data.error);
+    }
+
+    //dispatch(setPatientWithSnnList(patientFromApi)
+  };
+
   React.useEffect(() => {
 
     const fetchPatient = async () => {
@@ -51,6 +92,9 @@ const PatientFullData: React.FC = () => {
   const nonStatePatients = Object.values(patientsWithSSN).map((p: Patient) => p);
   const patient = nonStatePatients.find((p: Patient) => p.id === id);
 
+
+
+
   return (
     <div>
       {patient
@@ -62,16 +106,15 @@ const PatientFullData: React.FC = () => {
 
           {Object.values(patient.entries).map((entry: Entry) => (
             <div key={entry.id}>
-              <EntryDetails entry={entry} /* diagnoses={diagnoses} *//>
-              {/* <p>{entry.date} {entry.description}</p>
-              {entry.diagnosisCodes
-                ? entry.diagnosisCodes.map((diagnosisCode: string) => (
-                  <ul key={diagnosisCode}>
-                    <li>{diagnosisCode} {diagnoses[diagnosisCode].name}</li>
-                  </ul>
-                ))
-                : <></>} */}
+              <EntryDetails entry={entry} />
             </div>))}
+          <AddEntryModal
+            modalOpen={modalOpen}
+            onSubmit={submitNewEntry}
+            error={error}
+            onClose={closeModal}
+          />
+          <Button onClick={() => openModal()}>Add New Entry</Button>
         </div>
         : <></>}
 

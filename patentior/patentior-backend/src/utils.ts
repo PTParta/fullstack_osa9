@@ -66,10 +66,21 @@ const isType = (type: any): boolean => {
 }
 
 const parseNumber = (number: any): number => {
-  if (!number || isNaN(Number(number))) {
+  if (number === 0 || number === "0" ||
+    number === 1 || number === "1" ||
+    number === 2 || number === "2" ||
+    number === 3 || number === "3") {
+    return Number(number);
+  } else {
     throw new Error('Incorrect or missing health check rating: ' + number);
   }
-  return number;
+
+  /* const num = Number(number);
+  console.log("num", num);
+  if (!number || !(number === "0" || number === "1" || number === "2" || number === "3")) {
+    throw new Error('Incorrect or missing health check rating: ' + number);
+  }
+  return number; */
 }
 
 /* const parseType = (type: any):String => {
